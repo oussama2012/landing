@@ -151,5 +151,53 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Simple Slider Functionality
+let currentSlideIndex = 0;
+const totalSlides = 9;
+
+function changeSlide(direction) {
+    // Hide current slide
+    document.querySelector('.slide.active').classList.remove('active');
+    document.querySelector('.dot.active').classList.remove('active');
+    
+    // Calculate new slide index
+    currentSlideIndex += direction;
+    
+    if (currentSlideIndex >= totalSlides) {
+        currentSlideIndex = 0;
+    } else if (currentSlideIndex < 0) {
+        currentSlideIndex = totalSlides - 1;
+    }
+    
+    // Show new slide
+    document.querySelector(`[data-slide="${currentSlideIndex}"]`).classList.add('active');
+    document.querySelectorAll('.dot')[currentSlideIndex].classList.add('active');
+}
+
+function goToSlide(slideIndex) {
+    // Hide current slide
+    document.querySelector('.slide.active').classList.remove('active');
+    document.querySelector('.dot.active').classList.remove('active');
+    
+    // Set new slide index
+    currentSlideIndex = slideIndex;
+    
+    // Show new slide
+    document.querySelector(`[data-slide="${currentSlideIndex}"]`).classList.add('active');
+    document.querySelectorAll('.dot')[currentSlideIndex].classList.add('active');
+}
+
+// Auto-play functionality
+function startAutoSlider() {
+    setInterval(() => {
+        changeSlide(1);
+    }, 4000);
+}
+
+// Start auto-play when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    startAutoSlider();
+});
+
 // Start countdown timer
 startCountdown();
