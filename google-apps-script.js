@@ -67,7 +67,7 @@ function handleRequest(e) {
     }
     
     // Prepare the data row
-    const timestamp = data.timestamp || new Date().toLocaleString('ar-EG');
+    const timestamp = data.timestamp || new Date().toLocaleString('en-US');
     const product = data.product || '';
     const name = data.name || '';
     const phone = data.phone || '';

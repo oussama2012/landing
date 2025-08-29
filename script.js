@@ -211,6 +211,23 @@ window.onclick = function(event) {
     }
 }
 
+// Handle city selection change
+function handleCityChange() {
+    const citySelect = document.getElementById('customerCity');
+    const customCityInput = document.getElementById('customCity');
+    
+    if (citySelect.value === 'أخرى') {
+        customCityInput.style.display = 'block';
+        customCityInput.required = true;
+        citySelect.required = false;
+    } else {
+        customCityInput.style.display = 'none';
+        customCityInput.required = false;
+        customCityInput.value = '';
+        citySelect.required = true;
+    }
+}
+
 // Direct form submission handler
 function handleFormSubmit(event) {
     const form = document.getElementById('orderForm');
@@ -218,7 +235,25 @@ function handleFormSubmit(event) {
     const originalText = submitBtn.innerHTML;
     
     // Set timestamp before submission
-    document.getElementById('timestamp').value = new Date().toLocaleString('ar-EG');
+    document.getElementById('timestamp').value = new Date().toLocaleString('en-US');
+    
+    // Handle custom city input - create new option and select it
+    const citySelect = document.getElementById('customerCity');
+    const customCityInput = document.getElementById('customCity');
+    
+    if (citySelect.value === 'أخرى' && customCityInput.value.trim()) {
+        // Create new option with custom city value
+        const customOption = document.createElement('option');
+        customOption.value = customCityInput.value.trim();
+        customOption.text = customCityInput.value.trim();
+        customOption.selected = true;
+        
+        // Add the option and select it
+        citySelect.appendChild(customOption);
+        citySelect.value = customCityInput.value.trim();
+        
+        console.log('Custom city set to:', customCityInput.value.trim());
+    }
     
     // Show loading state
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
@@ -235,16 +270,18 @@ function handleFormSubmit(event) {
         submitBtn.innerHTML = '<i class="fas fa-check"></i> تم الإرسال بنجاح!';
         submitBtn.style.background = '#28a745';
         
-        // Reset form and close modal after 2 seconds
+        // Reset form and close modal after delay
         setTimeout(() => {
-            form.reset();
-            closeOrderForm();
             submitBtn.innerHTML = originalText;
-            submitBtn.style.background = '';
             submitBtn.disabled = false;
+            form.reset();
             
-            // Show success message
-            alert('تم إرسال طلبك بنجاح! سنتواصل معك قريباً لتأكيد الطلب.');
+            // Hide custom city input
+            const customCityInput = document.getElementById('customCity');
+            customCityInput.style.display = 'none';
+            customCityInput.required = false;
+            
+            closeOrderForm();
         }, 2000);
     };
     

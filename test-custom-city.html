@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Custom City</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        select, input { padding: 8px; width: 200px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .result { margin: 20px 0; padding: 15px; background: #f8f9fa; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h2>Test Custom City Functionality</h2>
+    
+    <form id="testForm" action="https://script.google.com/macros/s/AKfycbweQQw9MBHxqpiOFIyQWdLf6Ga1GWyGIG3Z6VURc9VZWpKWiyxb9id2oZnAZalsjEEX/exec" method="POST" target="result_frame">
+        <div class="form-group">
+            <label for="product">Product:</label>
+            <input type="text" id="product" name="product" value="Test Product" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="Test User" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" value="0612345678" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="city">City:</label>
+            <select id="city" name="city" required onchange="handleCityChange()">
+                <option value="">-- اختر المدينة --</option>
+                <option value="الدار البيضاء">الدار البيضاء</option>
+                <option value="الرباط">الرباط</option>
+                <option value="أخرى">أخرى</option>
+            </select>
+            <input type="text" id="customCity" placeholder="اكتب اسم المدينة" style="display: none; margin-top: 10px;">
+        </div>
+        
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" value="Test Address">
+        </div>
+        
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="text" id="quantity" name="quantity" value="1">
+        </div>
+        
+        <div class="form-group">
+            <label for="notes">Notes:</label>
+            <input type="text" id="notes" name="notes" value="Test Notes">
+        </div>
+        
+        <input type="hidden" id="timestamp" name="timestamp" value="">
+        
+        <button type="submit" onclick="handleSubmit(event)">Submit Test</button>
+    </form>
+    
+    <div class="result">
+        <h3>Form Data Preview:</h3>
+        <div id="formPreview"></div>
+    </div>
+    
+    <iframe name="result_frame" style="width:100%; height:200px; border:1px solid #ccc; margin-top:20px;"></iframe>
+    
+    <script>
+        function handleCityChange() {
+            const citySelect = document.getElementById('city');
+            const customCityInput = document.getElementById('customCity');
+            
+            if (citySelect.value === 'أخرى') {
+                customCityInput.style.display = 'block';
+                customCityInput.required = true;
+            } else {
+                customCityInput.style.display = 'none';
+                customCityInput.required = false;
+                customCityInput.value = '';
+            }
+            
+            updatePreview();
+        }
+        
+        function handleSubmit(event) {
+            // Set timestamp
+            document.getElementById('timestamp').value = new Date().toLocaleString('en-US');
+            
+            // Handle custom city - create new option and select it
+            const citySelect = document.getElementById('city');
+            const customCityInput = document.getElementById('customCity');
+            
+            if (citySelect.value === 'أخرى' && customCityInput.value.trim()) {
+                // Create new option with custom city value
+                const customOption = document.createElement('option');
+                customOption.value = customCityInput.value.trim();
+                customOption.text = customCityInput.value.trim();
+                customOption.selected = true;
+                
+                // Add the option and select it
+                citySelect.appendChild(customOption);
+                citySelect.value = customCityInput.value.trim();
+                
+                console.log('Custom city set to:', customCityInput.value.trim());
+            }
+            
+            updatePreview();
+            console.log('Form submitting with city value:', citySelect.value);
+        }
+        
+        function updatePreview() {
+            const form = document.getElementById('testForm');
+            const formData = new FormData(form);
+            let preview = '';
+            
+            for (let [key, value] of formData.entries()) {
+                preview += `<strong>${key}:</strong> ${value}<br>`;
+            }
+            
+            // Add custom city info
+            const citySelect = document.getElementById('city');
+            const customCityInput = document.getElementById('customCity');
+            
+            preview += `<br><strong>City Select Value:</strong> ${citySelect.value}<br>`;
+            preview += `<strong>Custom City Input:</strong> ${customCityInput.value}<br>`;
+            preview += `<strong>Custom City Visible:</strong> ${customCityInput.style.display !== 'none'}<br>`;
+            
+            document.getElementById('formPreview').innerHTML = preview;
+        }
+        
+        // Update preview on input changes
+        document.addEventListener('input', updatePreview);
+        document.addEventListener('change', updatePreview);
+        
+        // Initial preview
+        updatePreview();
+    </script>
+</body>
+</html>
