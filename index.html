@@ -18,10 +18,10 @@
                     <p class="subtext">تصميم عصري بجيوب متعددة، مريحة للظهر ومناسبة للدراسة.</p>
                     <div class="price-badge">199 درهم</div>
                     <div class="cta-buttons">
-                        <a href="https://wa.me/212655561692?text=السلام عليكم، بغيت نطلب حقيبة الظهر المدرسية 🌟" class="btn-primary" target="_blank">
-                            <i class="fab fa-whatsapp"></i>
+                        <button class="btn-primary" onclick="openOrderForm()">
+                            <i class="fas fa-shopping-cart"></i>
                             اشترِ الآن
-                        </a>
+                        </button>
                         <a href="#details" class="btn-secondary">عرض التفاصيل</a>
                     </div>
                 </div>
@@ -193,10 +193,10 @@
                         <span class="label">دقائق</span>
                     </div>
                 </div>
-                <a href="https://wa.me/212655561692?text=السلام عليكم، بغيت نطلب حقيبة الظهر المدرسية 🌟" class="btn-primary large" target="_blank">
-                    <i class="fab fa-whatsapp"></i>
+                <button class="btn-primary large" onclick="openOrderForm()">
+                    <i class="fas fa-shopping-cart"></i>
                     اشترِ الآن واستفد من العرض
-                </a>
+                </button>
             </div>
         </div>
     </section>
@@ -256,6 +256,56 @@
             </div>
         </div>
     </footer>
+
+    <!-- Order Form Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOrderForm()">&times;</span>
+            <h2>طلب الحقيبة</h2>
+            <form id="orderForm" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label for="productSelect">اختر اللون:</label>
+                    <select id="productSelect" name="product" required>
+                        <option value="">-- اختر اللون --</option>
+                        <option value="النموذج الأساسي">النموذج الأساسي</option>
+                        <option value="أسود كلاسيكي">أسود كلاسيكي</option>
+                        <option value="أزرق داكن">أزرق داكن</option>
+                        <option value="أخضر زيتوني">أخضر زيتوني</option>
+                        <option value="رمادي عصري">رمادي عصري</option>
+                        <option value="بني كلاسيكي">بني كلاسيكي</option>
+                        <option value="وردي أنيق">وردي أنيق</option>
+                        <option value="أحمر جريء">أحمر جريء</option>
+                        <option value="أبيض نظيف">أبيض نظيف</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerName">الاسم الكامل:</label>
+                    <input type="text" id="customerName" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerPhone">رقم الهاتف:</label>
+                    <input type="tel" id="customerPhone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerAddress">العنوان:</label>
+                    <textarea id="customerAddress" name="address" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerCity">المدينة:</label>
+                    <input type="text" id="customerCity" name="city" required>
+                </div>
+                
+                <button type="submit" class="btn-primary form-submit">
+                    <i class="fas fa-paper-plane"></i>
+                    إرسال الطلب
+                </button>
+            </form>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

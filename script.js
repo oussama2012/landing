@@ -194,6 +194,90 @@ function startAutoSlider() {
     }, 4000);
 }
 
+// Order Form Functions
+function openOrderForm() {
+    document.getElementById('orderModal').style.display = 'block';
+}
+
+function closeOrderForm() {
+    document.getElementById('orderModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('orderModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Google Sheets Integration
+async function submitOrder(event) {
+    event.preventDefault();
+    
+    const form = document.getElementById('orderForm');
+    const submitBtn = form.querySelector('.form-submit');
+    const originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+    submitBtn.disabled = true;
+    
+    // Get form data
+    const formData = new FormData(form);
+    const data = {
+        product: formData.get('product'),
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        address: formData.get('address'),
+        city: formData.get('city'),
+        timestamp: new Date().toLocaleString('ar-EG')
+    };
+    
+    try {
+        // Replace this URL with your Google Apps Script Web App URL
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+        
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            // Success
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> تم الإرسال بنجاح!';
+            submitBtn.style.background = '#28a745';
+            
+            // Reset form and close modal after 2 seconds
+            setTimeout(() => {
+                form.reset();
+                closeOrderForm();
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = '';
+                submitBtn.disabled = false;
+                
+                // Show success message
+                alert('تم إرسال طلبك بنجاح! سنتواصل معك قريباً لتأكيد الطلب.');
+            }, 2000);
+        } else {
+            throw new Error('فشل في إرسال الطلب');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> حدث خطأ، حاول مرة أخرى';
+        submitBtn.style.background = '#dc3545';
+        
+        setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.style.background = '';
+            submitBtn.disabled = false;
+        }, 3000);
+    }
+}
+
 // Start auto-play when page loads
 document.addEventListener('DOMContentLoaded', function() {
     startAutoSlider();
