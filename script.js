@@ -211,71 +211,45 @@ window.onclick = function(event) {
     }
 }
 
-// Google Sheets Integration
-async function submitOrder(event) {
-    event.preventDefault();
-    
+// Direct form submission handler
+function handleFormSubmit(event) {
     const form = document.getElementById('orderForm');
     const submitBtn = form.querySelector('.form-submit');
     const originalText = submitBtn.innerHTML;
+    
+    // Set timestamp before submission
+    document.getElementById('timestamp').value = new Date().toLocaleString('ar-EG');
     
     // Show loading state
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
     submitBtn.disabled = true;
     
-    // Get form data
-    const formData = new FormData(form);
-    const data = {
-        product: formData.get('product'),
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        address: formData.get('address'),
-        city: formData.get('city'),
-        timestamp: new Date().toLocaleString('ar-EG')
-    };
+    console.log('Form submitting directly to Google Apps Script...');
     
-    try {
-        // Replace this URL with your Google Apps Script Web App URL
-        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+    // Handle iframe load event for success feedback
+    const iframe = document.getElementById('hidden_iframe');
+    iframe.onload = function() {
+        console.log('Form submitted successfully');
         
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        // Success
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> تم الإرسال بنجاح!';
+        submitBtn.style.background = '#28a745';
         
-        if (response.ok) {
-            // Success
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> تم الإرسال بنجاح!';
-            submitBtn.style.background = '#28a745';
-            
-            // Reset form and close modal after 2 seconds
-            setTimeout(() => {
-                form.reset();
-                closeOrderForm();
-                submitBtn.innerHTML = originalText;
-                submitBtn.style.background = '';
-                submitBtn.disabled = false;
-                
-                // Show success message
-                alert('تم إرسال طلبك بنجاح! سنتواصل معك قريباً لتأكيد الطلب.');
-            }, 2000);
-        } else {
-            throw new Error('فشل في إرسال الطلب');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> حدث خطأ، حاول مرة أخرى';
-        submitBtn.style.background = '#dc3545';
-        
+        // Reset form and close modal after 2 seconds
         setTimeout(() => {
+            form.reset();
+            closeOrderForm();
             submitBtn.innerHTML = originalText;
             submitBtn.style.background = '';
             submitBtn.disabled = false;
-        }, 3000);
-    }
+            
+            // Show success message
+            alert('تم إرسال طلبك بنجاح! سنتواصل معك قريباً لتأكيد الطلب.');
+        }, 2000);
+    };
+    
+    // Allow the form to submit normally
+    return true;
 }
 
 // Start auto-play when page loads

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Google Apps Script</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e9; color: #2e7d32; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Google Apps Script Debug Test</h1>
+    
+    <div class="test-section">
+        <h3>Test 1: Direct URL Test</h3>
+        <button onclick="testDirectURL()">Test Script URL</button>
+        <div id="urlResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 2: Form Submission Test</h3>
+        <form id="testForm">
+            <p>Product: <input type="text" name="product" value="Test Product" required></p>
+            <p>Name: <input type="text" name="name" value="Test User" required></p>
+            <p>Phone: <input type="text" name="phone" value="0612345678" required></p>
+            <p>Address: <input type="text" name="address" value="Test Address"></p>
+            <p>City: <input type="text" name="city" value="Casablanca"></p>
+            <p>Quantity: <input type="text" name="quantity" value="1"></p>
+            <p>Notes: <input type="text" name="notes" value="Debug test"></p>
+            <button type="button" onclick="submitForm()">Submit Test Form</button>
+        </form>
+        <div id="formResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 3: Check Response</h3>
+        <iframe id="responseFrame" style="width:100%; height:200px; border:1px solid #ccc;"></iframe>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweQQw9MBHxqpiOFIyQWdLf6Ga1GWyGIG3Z6VURc9VZWpKWiyxb9id2oZnAZalsjEEX/exec';
+        
+        function testDirectURL() {
+            const resultDiv = document.getElementById('urlResult');
+            resultDiv.innerHTML = 'Testing URL accessibility...';
+            
+            fetch(SCRIPT_URL + '?test=true')
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    resultDiv.innerHTML = `<div class="success">✓ URL accessible. Response: ${data.substring(0, 200)}...</div>`;
+                })
+                .catch(error => {
+                    console.error('URL test error:', error);
+                    resultDiv.innerHTML = `<div class="error">✗ URL test failed: ${error.message}</div>`;
+                });
+        }
+        
+        function submitForm() {
+            const resultDiv = document.getElementById('formResult');
+            const form = document.getElementById('testForm');
+            const formData = new FormData(form);
+            
+            // Add timestamp
+            formData.append('timestamp', new Date().toLocaleString('ar-EG'));
+            
+            resultDiv.innerHTML = 'Submitting form...';
+            
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('Form response status:', response.status);
+                return response.text();
+            })
+            .then(data => {
+                console.log('Form response data:', data);
+                resultDiv.innerHTML = `<div class="success">✓ Form submitted. Response: ${data}</div>`;
+                
+                // Also show in iframe
+                const iframe = document.getElementById('responseFrame');
+                iframe.srcdoc = data;
+            })
+            .catch(error => {
+                console.error('Form submission error:', error);
+                resultDiv.innerHTML = `<div class="error">✗ Form submission failed: ${error.message}</div>`;
+            });
+        }
+        
+        // Auto-run URL test on page load
+        window.onload = function() {
+            testDirectURL();
+        };
+    </script>
+</body>
+</html>

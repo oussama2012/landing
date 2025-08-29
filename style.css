@@ -514,18 +514,22 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
+    overflow-y: auto;
+    padding: 20px 0;
 }
 
 .modal-content {
     background-color: white;
-    margin: 5% auto;
+    margin: 2% auto;
     padding: 40px;
     border-radius: 20px;
     width: 90%;
-    max-width: 500px;
+    max-width: 600px;
     position: relative;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     animation: modalSlideIn 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 @keyframes modalSlideIn {
@@ -562,27 +566,45 @@ body {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: #2c3e50;
     font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.form-group label i {
+    margin-left: 8px;
+    color: #3AA6FF;
+    width: 16px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 12px 15px;
+    padding: 15px 18px;
     border: 2px solid #e9ecef;
-    border-radius: 10px;
-    font-size: 1rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
     font-family: 'Cairo', sans-serif;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
     box-sizing: border-box;
+    background-color: #f8f9fa;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
 }
 
 .form-group input:focus,
@@ -590,7 +612,9 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: #3AA6FF;
-    box-shadow: 0 0 0 3px rgba(58, 166, 255, 0.1);
+    box-shadow: 0 0 0 4px rgba(58, 166, 255, 0.15);
+    background-color: white;
+    transform: translateY(-1px);
 }
 
 .form-group textarea {
@@ -600,9 +624,11 @@ body {
 
 .form-submit {
     width: 100%;
-    margin-top: 20px;
-    padding: 15px;
-    font-size: 1.1rem;
+    margin-top: 30px;
+    padding: 18px;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
 }
 
 /* Footer */
@@ -668,6 +694,27 @@ body {
 }
 
 /* Responsive Design */
+/* Large tablets and small desktops */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 30px;
+    }
+    
+    .hero-content {
+        gap: 50px;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablets */
 @media (max-width: 768px) {
     .hero-content {
         grid-template-columns: 1fr;
@@ -685,10 +732,7 @@ body {
     
     .benefits-grid {
         grid-template-columns: 1fr;
-    }
-    
-    .gallery-grid {
-        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
     .testimonials-grid {
@@ -713,45 +757,153 @@ body {
         flex-direction: column;
         text-align: center;
     }
+    
+    /* Form responsive adjustments */
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .modal-content {
+        padding: 30px 25px;
+        margin: 5% auto;
+    }
+    
+    .nav-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .prev-btn {
+        left: 15px;
+    }
+    
+    .next-btn {
+        right: 15px;
+    }
 }
 
+/* Mobile phones */
 @media (max-width: 480px) {
     .container {
         padding: 0 15px;
     }
     
     .hero {
-        padding: 60px 0;
+        padding: 50px 0;
     }
     
     .hero-text h1 {
-        font-size: 1.8rem;
+        font-size: 1.7rem;
+        line-height: 1.2;
     }
     
-    .price-badge {
-        font-size: 1.5rem;
-        padding: 12px 25px;
-    }
-    
-    .btn-primary, .btn-secondary {
-        padding: 15px 25px;
+    .subtext {
         font-size: 1rem;
     }
     
+    .price-badge {
+        font-size: 1.4rem;
+        padding: 12px 20px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
     .benefits, .gallery, .testimonials, .special-offer, .faq {
-        padding: 60px 0;
+        padding: 50px 0;
+    }
+    
+    .benefit-card {
+        padding: 30px 20px;
     }
     
     .offer-banner h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     
     .countdown {
-        gap: 10px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .time-unit .number {
-        font-size: 1.8rem;
-        padding: 8px 12px;
+        font-size: 1.6rem;
+        padding: 8px 10px;
+    }
+    
+    /* Mobile form improvements */
+    .modal-content {
+        padding: 25px 20px;
+        margin: 10px;
+        width: calc(100% - 20px);
+        border-radius: 15px;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px 15px;
+        font-size: 1rem;
+        border-radius: 10px;
+    }
+    
+    .form-submit {
+        padding: 15px;
+        font-size: 1.1rem;
+    }
+    
+    .nav-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .prev-btn {
+        left: 10px;
+    }
+    
+    .next-btn {
+        right: 10px;
+    }
+    
+    .slide {
+        padding: 30px 20px;
+    }
+    
+    .slide img {
+        max-height: 250px;
+    }
+    
+    .dots-container {
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .dot {
+        width: 12px;
+        height: 12px;
     }
 }

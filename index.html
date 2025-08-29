@@ -262,9 +262,12 @@
         <div class="modal-content">
             <span class="close" onclick="closeOrderForm()">&times;</span>
             <h2>طلب الحقيبة</h2>
-            <form id="orderForm" onsubmit="submitOrder(event)">
-                <div class="form-group">
-                    <label for="productSelect">اختر اللون:</label>
+            <form id="orderForm" action="https://script.google.com/macros/s/AKfycbweQQw9MBHxqpiOFIyQWdLf6Ga1GWyGIG3Z6VURc9VZWpKWiyxb9id2oZnAZalsjEEX/exec" method="POST" target="hidden_iframe" onsubmit="handleFormSubmit(event)">
+                <div class="form-group full-width">
+                    <label for="productSelect">
+                        <i class="fas fa-palette"></i>
+                        اختر اللون المفضل:
+                    </label>
                     <select id="productSelect" name="product" required>
                         <option value="">-- اختر اللون --</option>
                         <option value="النموذج الأساسي">النموذج الأساسي</option>
@@ -279,33 +282,91 @@
                     </select>
                 </div>
                 
-                <div class="form-group">
-                    <label for="customerName">الاسم الكامل:</label>
-                    <input type="text" id="customerName" name="name" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerName">
+                            <i class="fas fa-user"></i>
+                            الاسم الكامل:
+                        </label>
+                        <input type="text" id="customerName" name="name" placeholder="أدخل اسمك الكامل" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerPhone">
+                            <i class="fas fa-phone"></i>
+                            رقم الهاتف:
+                        </label>
+                        <input type="tel" id="customerPhone" name="phone" placeholder="06xxxxxxxx" required>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="customerPhone">رقم الهاتف:</label>
-                    <input type="tel" id="customerPhone" name="phone" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerCity">
+                            <i class="fas fa-map-marker-alt"></i>
+                            المدينة:
+                        </label>
+                        <select id="customerCity" name="city" required>
+                            <option value="">-- اختر المدينة --</option>
+                            <option value="الدار البيضاء">الدار البيضاء</option>
+                            <option value="الرباط">الرباط</option>
+                            <option value="فاس">فاس</option>
+                            <option value="مراكش">مراكش</option>
+                            <option value="أغادير">أغادير</option>
+                            <option value="طنجة">طنجة</option>
+                            <option value="مكناس">مكناس</option>
+                            <option value="وجدة">وجدة</option>
+                            <option value="تطوان">تطوان</option>
+                            <option value="القنيطرة">القنيطرة</option>
+                            <option value="سلا">سلا</option>
+                            <option value="أخرى">أخرى</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerQuantity">
+                            <i class="fas fa-shopping-bag"></i>
+                            الكمية:
+                        </label>
+                        <select id="customerQuantity" name="quantity" required>
+                            <option value="1">1 حقيبة</option>
+                            <option value="2">2 حقيبة</option>
+                            <option value="3">3 حقائب</option>
+                            <option value="4">4 حقائب</option>
+                            <option value="5">5 حقائب أو أكثر</option>
+                        </select>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="customerAddress">العنوان:</label>
-                    <textarea id="customerAddress" name="address" rows="3" required></textarea>
+                <div class="form-group full-width">
+                    <label for="customerAddress">
+                        <i class="fas fa-home"></i>
+                        العنوان التفصيلي:
+                    </label>
+                    <textarea id="customerAddress" name="address" rows="3" placeholder="أدخل عنوانك بالتفصيل (الحي، الشارع، رقم المنزل...)" required></textarea>
                 </div>
                 
-                <div class="form-group">
-                    <label for="customerCity">المدينة:</label>
-                    <input type="text" id="customerCity" name="city" required>
+                <div class="form-group full-width">
+                    <label for="customerNotes">
+                        <i class="fas fa-comment"></i>
+                        ملاحظات إضافية (اختياري):
+                    </label>
+                    <textarea id="customerNotes" name="notes" rows="2" placeholder="أي ملاحظات أو طلبات خاصة..."></textarea>
                 </div>
+                
+                <!-- Hidden timestamp field -->
+                <input type="hidden" name="timestamp" id="timestamp">
                 
                 <button type="submit" class="btn-primary form-submit">
                     <i class="fas fa-paper-plane"></i>
-                    إرسال الطلب
+                    إرسال الطلب الآن
                 </button>
             </form>
         </div>
     </div>
+
+    <!-- Hidden iframe for form submission -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
     <script src="script.js"></script>
 </body>

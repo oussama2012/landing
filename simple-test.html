@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Google Apps Script Test</title>
+</head>
+<body>
+    <h2>Test Google Apps Script Connection</h2>
+    
+    <form action="https://script.google.com/macros/s/AKfycbweQQw9MBHxqpiOFIyQWdLf6Ga1GWyGIG3Z6VURc9VZWpKWiyxb9id2oZnAZalsjEEX/exec" method="POST" target="result_frame">
+        <p>Product: <input type="text" name="product" value="Test Product"></p>
+        <p>Name: <input type="text" name="name" value="Test Name"></p>
+        <p>Phone: <input type="text" name="phone" value="0612345678"></p>
+        <p>Address: <input type="text" name="address" value="Test Address"></p>
+        <p>City: <input type="text" name="city" value="Test City"></p>
+        <p>Quantity: <input type="text" name="quantity" value="1"></p>
+        <p>Notes: <input type="text" name="notes" value="Test Notes"></p>
+        <input type="hidden" name="timestamp" value="">
+        <p><input type="submit" value="Test Submit"></p>
+    </form>
+    
+    <iframe name="result_frame" style="width:100%; height:200px; border:1px solid #ccc; margin-top:20px;"></iframe>
+    
+    <script>
+        // Set timestamp before any submission
+        document.querySelector('input[name="timestamp"]').value = new Date().toLocaleString('ar-EG');
+    </script>
+</body>
+</html>

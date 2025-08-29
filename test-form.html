@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form - Google Sheets Integration</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            direction: rtl;
+            text-align: right;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background: #3AA6FF;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background: #ccc;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>اختبار نموذج Google Sheets</h1>
+    
+    <form id="testForm">
+        <div class="form-group">
+            <label for="product">المنتج:</label>
+            <select id="product" name="product" required>
+                <option value="أسود كلاسيكي">أسود كلاسيكي</option>
+                <option value="أزرق داكن">أزرق داكن</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="name">الاسم:</label>
+            <input type="text" id="name" name="name" value="أحمد محمد" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">الهاتف:</label>
+            <input type="tel" id="phone" name="phone" value="0612345678" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="address">العنوان:</label>
+            <textarea id="address" name="address" required>شارع الحسن الثاني، رقم 123</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="city">المدينة:</label>
+            <select id="city" name="city" required>
+                <option value="الدار البيضاء">الدار البيضاء</option>
+                <option value="الرباط">الرباط</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="quantity">الكمية:</label>
+            <select id="quantity" name="quantity" required>
+                <option value="1">1 حقيبة</option>
+                <option value="2">2 حقيبة</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="notes">ملاحظات:</label>
+            <textarea id="notes" name="notes">طلب اختبار</textarea>
+        </div>
+        
+        <button type="submit" id="submitBtn">إرسال الطلب</button>
+    </form>
+    
+    <div id="result" class="result"></div>
+    
+    <script>
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const result = document.getElementById('result');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading
+            submitBtn.textContent = 'جاري الإرسال...';
+            submitBtn.disabled = true;
+            result.style.display = 'none';
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = {
+                product: formData.get('product'),
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                address: formData.get('address'),
+                city: formData.get('city'),
+                quantity: formData.get('quantity'),
+                notes: formData.get('notes') || '',
+                timestamp: new Date().toLocaleString('ar-EG')
+            };
+            
+            console.log('Test data:', data);
+            
+            try {
+                const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxEr8I8O1i8ijiXvsw-Bluy50ibX2dwczvZ2elBDVAiNeIfC7NI8IMs8wTlKro7mWW3/exec';
+                
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                if (response.ok) {
+                    result.className = 'result success';
+                    result.textContent = 'تم الإرسال بنجاح! ✅';
+                    result.style.display = 'block';
+                    this.reset();
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${responseText}`);
+                }
+                
+            } catch (error) {
+                console.error('Error details:', error);
+                result.className = 'result error';
+                result.textContent = `خطأ: ${error.message}`;
+                result.style.display = 'block';
+            }
+            
+            // Reset button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+    </script>
+</body>
+</html>
