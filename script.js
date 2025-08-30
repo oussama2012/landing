@@ -322,3 +322,36 @@ function startHeroImageRotation() {
 document.addEventListener('DOMContentLoaded', function() {
     startHeroImageRotation();
 });
+
+// Elegant Slider Functionality
+function startElegantSlider() {
+    const elegantImages = document.querySelectorAll('.elegant-img');
+    let currentElegantIndex = 0;
+    
+    if (elegantImages.length === 0) return;
+    
+    // Ensure first image is active initially
+    elegantImages.forEach((img, index) => {
+        img.classList.remove('active');
+        if (index === 0) img.classList.add('active');
+    });
+    
+    function switchElegantImage() {
+        // Remove active class from all images
+        elegantImages.forEach(img => img.classList.remove('active'));
+        
+        // Move to next image
+        currentElegantIndex = (currentElegantIndex + 1) % elegantImages.length;
+        
+        // Add active class to current image
+        elegantImages[currentElegantIndex].classList.add('active');
+    }
+    
+    // Switch image every 2.5 seconds
+    setInterval(switchElegantImage, 2500);
+}
+
+// Start elegant slider when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    startElegantSlider();
+});
