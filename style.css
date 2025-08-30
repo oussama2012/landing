@@ -715,6 +715,29 @@ body {
     color: #bdc3c7;
 }
 
+/* Mobile-first optimizations */
+/* Improve touch targets and accessibility */
+.btn-primary,
+.btn-secondary,
+.nav-btn,
+.dot,
+.faq-question {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth scrolling for mobile */
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Better mobile viewport handling */
+@viewport {
+    width: device-width;
+    zoom: 1.0;
+}
+
 /* Responsive Design */
 /* Large tablets and small desktops */
 @media (max-width: 1024px) {
@@ -736,8 +759,23 @@ body {
     }
 }
 
-/* Tablets */
+/* Small tablets and large phones */
 @media (max-width: 768px) {
+    /* Improve touch targets */
+    .btn-primary,
+    .btn-secondary {
+        min-height: 48px;
+        padding: 15px 30px;
+    }
+    
+    /* Better image handling */
+    .hero-image img {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
     .hero-content {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -817,65 +855,128 @@ body {
     }
     
     .hero {
-        padding: 50px 0;
+        padding: 40px 0;
     }
     
     .hero-text h1 {
-        font-size: 1.7rem;
-        line-height: 1.2;
+        font-size: 1.6rem;
+        line-height: 1.3;
+        margin-bottom: 15px;
     }
     
     .subtext {
         font-size: 1rem;
+        margin-bottom: 25px;
     }
     
     .price-badge {
-        font-size: 1.4rem;
-        padding: 12px 20px;
+        font-size: 1.3rem;
+        padding: 12px 25px;
+        margin-bottom: 25px;
     }
     
     .btn-primary, .btn-secondary {
-        padding: 14px 20px;
-        font-size: 0.95rem;
+        padding: 16px 25px;
+        font-size: 1rem;
+        min-height: 50px;
+        border-radius: 25px;
     }
     
     .cta-buttons {
         flex-direction: column;
         gap: 15px;
+        width: 100%;
+    }
+    
+    .cta-buttons .btn-primary,
+    .cta-buttons .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .hero-image img {
+        width: 100%;
+        max-width: 300px;
+        height: 300px;
     }
     
     .benefits, .gallery, .testimonials, .special-offer, .faq {
-        padding: 50px 0;
+        padding: 40px 0;
     }
     
     .benefit-card {
-        padding: 30px 20px;
+        padding: 25px 15px;
+        margin-bottom: 20px;
+    }
+    
+    .product-image {
+        height: 200px;
+        margin-bottom: 15px;
+    }
+    
+    .benefit-card p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    
+    .gallery h2,
+    .testimonials h2,
+    .faq h2 {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
     }
     
     .offer-banner h2 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        line-height: 1.3;
+        margin-bottom: 25px;
     }
     
     .countdown {
-        gap: 8px;
+        gap: 10px;
         flex-wrap: wrap;
+        justify-content: center;
     }
     
     .time-unit .number {
-        font-size: 1.6rem;
-        padding: 8px 10px;
+        font-size: 1.5rem;
+        padding: 10px 12px;
+        min-width: 50px;
     }
     
-    /* Mobile form improvements */
+    .time-unit .label {
+        font-size: 0.9rem;
+    }
+    
+    .offer-details {
+        margin-bottom: 30px;
+    }
+    
+    .discount {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+    
+    .gift {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+    
+    /* Enhanced mobile form */
+    .modal {
+        padding: 10px 0;
+    }
+    
     .modal-content {
         padding: 25px 20px;
         margin: 10px;
         width: calc(100% - 20px);
         border-radius: 15px;
+        max-height: 85vh;
     }
     
     .modal-content h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         margin-bottom: 25px;
     }
     
@@ -891,20 +992,40 @@ body {
     .form-group input,
     .form-group select,
     .form-group textarea {
-        padding: 12px 15px;
-        font-size: 1rem;
+        padding: 14px 16px;
+        font-size: 16px; /* Prevents zoom on iOS */
         border-radius: 10px;
+        min-height: 50px;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    .form-group select {
+        background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: left 15px center;
+        background-size: 12px;
+        padding-left: 40px;
+    }
+    
+    .form-group textarea {
+        min-height: 80px;
+        resize: vertical;
     }
     
     .form-submit {
-        padding: 15px;
+        padding: 16px;
         font-size: 1.1rem;
+        min-height: 55px;
+        margin-top: 25px;
     }
     
+    /* Touch-friendly navigation */
     .nav-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.4rem;
+        touch-action: manipulation;
     }
     
     .prev-btn {
@@ -916,20 +1037,128 @@ body {
     }
     
     .slide {
-        padding: 30px 20px;
+        padding: 25px 15px;
     }
     
     .slide img {
-        max-height: 250px;
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        max-height: 220px;
+        object-fit: contain;
+    }
+    
+    .slide h3 {
+        font-size: 1.3rem;
+        margin-top: 15px;
     }
     
     .dots-container {
         padding: 15px;
-        gap: 10px;
+        gap: 12px;
     }
     
     .dot {
-        width: 12px;
-        height: 12px;
+        width: 14px;
+        height: 14px;
+        touch-action: manipulation;
+    }
+    
+    /* FAQ mobile optimization */
+    .faq-question {
+        padding: 20px 20px;
+        touch-action: manipulation;
+    }
+    
+    .faq-question h3 {
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+    
+    .faq-answer {
+        padding: 0 20px;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 20px 20px;
+    }
+    
+    /* Footer mobile optimization */
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .social-icons {
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .social-icons a {
+        width: 45px;
+        height: 45px;
+        touch-action: manipulation;
+    }
+    
+    /* Testimonials mobile */
+    .testimonial {
+        padding: 25px 20px;
+    }
+    
+    .testimonial p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .rating {
+        margin-bottom: 40px;
+    }
+    
+    .stars {
+        font-size: 1.3rem;
+    }
+    
+    .rating-text {
+        font-size: 1rem;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+    .hero-text h1 {
+        font-size: 1.4rem;
+    }
+    
+    .price-badge {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .modal-content {
+        padding: 20px 15px;
+        margin: 5px;
+        width: calc(100% - 10px);
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px 14px;
+    }
+    
+    .countdown {
+        gap: 8px;
+    }
+    
+    .time-unit .number {
+        font-size: 1.3rem;
+        padding: 8px 10px;
+        min-width: 45px;
     }
 }
