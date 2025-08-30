@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Simple Slider Functionality
 let currentSlideIndex = 0;
-const totalSlides = 9;
+const totalSlides = 2;
 
 function changeSlide(direction) {
     // Hide current slide
@@ -296,3 +296,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Start countdown timer
 startCountdown();
+
+// Hero Image Auto-Change Functionality
+function startHeroImageRotation() {
+    const heroImage = document.querySelector('.hero-image img');
+    const images = ['../pink.jpg', '../blue.jpg'];
+    let currentImageIndex = 0;
+    
+    function changeHeroImage() {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        heroImage.src = images[currentImageIndex];
+        
+        // Add fade effect
+        heroImage.style.opacity = '0.7';
+        setTimeout(() => {
+            heroImage.style.opacity = '1';
+        }, 300);
+    }
+    
+    // Change image every 3 seconds
+    setInterval(changeHeroImage, 3000);
+}
+
+// Start hero image rotation when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    startHeroImageRotation();
+});
