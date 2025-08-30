@@ -300,7 +300,7 @@ startCountdown();
 // Hero Image Auto-Change Functionality
 function startHeroImageRotation() {
     const heroImage = document.querySelector('.hero-image img');
-    const images = ['../pink.jpg', '../blue.jpg'];
+    const images = ['pink.jpg', 'blue.jpg'];
     let currentImageIndex = 0;
     
     function changeHeroImage() {
